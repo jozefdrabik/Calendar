@@ -70,13 +70,16 @@ onMounted(async () => {
 });
 
 const formattedCurrentMonth = computed(() => {
-  return new Date(currentYear.value, currentMonth.value).toLocaleString(
+  const date = new Date(currentYear.value, currentMonth.value).toLocaleString(
     settings.language.code || "en",
     {
       month: "long",
       year: "numeric",
     }
   );
+
+  return String(date).charAt(0).toUpperCase() + String(date).slice(1)
+
 });
 
 const formattedNextMonth = computed(() => {
@@ -84,13 +87,15 @@ const formattedNextMonth = computed(() => {
   const nextYearValue =
     currentMonth.value + 1 > 11 ? currentYear.value + 1 : currentYear.value;
 
-  return new Date(nextYearValue, nextMonthValue).toLocaleString(
+  const date = new Date(nextYearValue, nextMonthValue).toLocaleString(
     settings.language.code || "en",
     {
       month: "long",
       year: "numeric",
     }
   );
+
+  return String(date).charAt(0).toUpperCase() + String(date).slice(1)
 });
 
 const nextMonth = computed(() => (currentMonth.value + 1) % 12);
@@ -174,7 +179,7 @@ const selectedRangeDisplay = computed(() => {
   >
     <div class="flex justify-between items-center mb-4">
       <button @click="prevMonth" class="btn">◀️</button>
-      <h2 class="text-xl font-bold">
+      <h2 class="sm:text-xl font-bold">
         {{ formattedCurrentMonth }} - {{ formattedNextMonth }}
       </h2>
       <button @click="nextMonthFunc" class="btn">▶️</button>
